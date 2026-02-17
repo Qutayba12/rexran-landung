@@ -1,66 +1,59 @@
-# ArabicCaller Master Plan v3.0 - Sovereign Edition
+# ArabicCaller Master Plan v4.0 - Commercial Reality Edition
 
 ## 1. Vision & Mission
-To build the most secure, compliant, and reliable AI-powered live call translation infrastructure in the UK. ArabicCaller bridges the language gap for immigrants (Arabic/Urdu/Bengali/Somali ↔ English) while ensuring absolute data privacy and fiscal transparency.
+To build the most secure, compliant, and reliable AI-powered live call translation infrastructure in the UK. ArabicCaller prioritizes data sovereignty, distribution-led growth, and institutional transparency to solve the language barrier for the UK's immigrant population.
 
 ## 2. Core Strategic Pillars
-- **Privacy-First (GDPR/ICO):** Zero-persistence voice processing and automated data retention.
-- **Fiscal Integrity:** Real-time API usage tracking and automated cost kill-switches.
-- **Technical Excellence:** Modular FastAPI architecture with sub-second latency.
-- **User Empowerment:** Transparent PAYG (Pay-As-You-Go) pricing with zero commitment.
+- **Privacy-First (GDPR/ICO):** Zero-persistence processing + Automated Data Retention + DPAs with all sub-processors.
+- **Distribution-Led Growth:** Focus on partnerships with NGOs, solicitors, and community centers over pure advertising.
+- **Fiscal Fortress:** Real-time API usage tracking + Cost Kill-Switches + Minimum Commit for high-tier users.
+- **Web-First Stability:** Perfecting the browser and API experience before considering native mobile development.
 
 ---
 
 ## 3. 8-Week Execution Roadmap
 
-### Week 1: Legal Fortress & Accreditation
-- **Entity:** Register UK LTD and open Wise/Stripe Business accounts.
-- **Compliance:** Register with ICO as Data Controller.
-- **Protection:** Secure Professional Indemnity Insurance and draft Legal Disclaimer.
-- **Telephony:** Authenticate Twilio Business Profile for local UK numbers.
+### Week 1: Legal & Compliance Fortress
+- **Entity:** Register UK LTD; open Wise/Stripe Business.
+- **Compliance:** Register with ICO; implement **Data Processing Agreements (DPAs)** with AI providers.
+- **Protection:** Professional Indemnity Insurance + AI Accuracy Disclaimer.
+- **Telephony:** Authenticate Twilio Business Profile (A2P 10DLC / UK Local equivalents).
 
-### Weeks 2–3: Elite Engine & Hard-Stop Logic
-- **Modular Backend:** FastAPI architecture separating STT (Soniox), LLM (GPT-4o mini), and TTS (ElevenLabs Turbo 2.5).
-- **Cybersecurity:** TLS 1.2+ encrypted WebSockets and In-Memory Buffer policy.
-- **Financial Guardian:** Implement server-side Hard-Stop logic to hang up calls when estimated cost hits user balance.
-- **Performance:** Sub-second latency optimization.
+### Weeks 2–3: Elite Engine & Financial Kill-Switch
+- **Modular Backend:** FastAPI architecture for (Soniox STT / GPT-4o mini / ElevenLabs Turbo 2.5).
+- **Security:** TLS 1.2+ encrypted WebSockets; In-Memory Buffer policy (No persistent audio).
+- **Hard-Stop Logic:** Implement server-side logic to terminate calls immediately when `Estimated_Cost > User_Balance`.
 
-### Weeks 4–5: Data Engineering & Dashboard
-- **Elite Schema (Supabase):** 
-    - `users`: Balance, preferred language, unique phone.
-    - `calls`: Metadata, Indexed `compliance_audit_id`, `retention_expiry_at`.
-    - `api_usage_logs`: Detailed tracking of tokens, characters, and costs per call.
-    - `transactions`: Ledger for top-ups and deductions.
-- **Observability:** Prometheus + Grafana for real-time latency and cost monitoring.
-- **User Portal:** Next.js 16 dashboard for credit management and language selection.
+### Weeks 4–5: Institutional Schema & Observability
+- **Supabase Schema v4:**
+    - `users`: Balance, Premium_Status, Unique Phone.
+    - `calls`: `compliance_audit_id` [indexed], `retention_expiry_at`, `ai_engine_version`.
+    - `api_usage_logs`: Token/Char level tracking + `hard_stop_triggered` flag.
+    - `transactions`: Full ledger for auditing and HMRC compliance.
+- **Monitoring:** Prometheus + Grafana for latency and burn-rate tracking.
 
-### Week 6: Field Testing & Compliance Audit
-- **Closed Beta:** Pilot with 5 Community Ambassadors.
-- **Stress Test:** Simulate 50 concurrent calls using Locust.
-- **Retention Audit:** Verify automated data wiping based on expiry timestamps.
+### Week 6: Strategic Testing (PMF Search)
+- **Qualitative Pilot:** Trial with 5 **Community Ambassadors** and 2 **Refugee NGOs**.
+- **Stress Test:** Simulate 50 concurrent calls (Locust); verify Kill-Switch and Retention Wipe.
 
-### Weeks 7–8: Commercial Launch & Growth
-- **Premium Pricing Strategy:**
-    - Starter: £0.50/min.
-    - Pro: £0.35/min.
-    - Enterprise: £0.25/min.
-- **Growth Loops:** WhatsApp referral system and Ambassador rewards.
-- **Strategic Ads:** Targeted Google/TikTok ads for GP, Council, and Banking scenarios.
+### Weeks 7–8: Distribution & Commercial Launch
+- **Monetization (PAYG + Commit):**
+    - Starter (£10 top-up): 50p/min.
+    - Pro (£25 top-up): 35p/min.
+    - Enterprise (£50 min commit): 25p/min + Basic SLA.
+- **Partnership Launch:** MOUs with immigration solicitors and community support centers.
+- **Strategic Content:** TikTok/WhatsApp demos focusing on GP/Bank/Council scenarios.
 
 ---
 
-## 4. Financial Profile (10,000 Min/Mo Projection)
-- **Revenue:** ~£3,500.
-- **Operational Cost:** ~£450 (AI + Telephony).
-- **Fixed Overhead:** ~£60.
-- **Net Profit (Post-Tax):** ~£2,400/mo.
-- **Margin:** ~69%.
+## 4. Financial Profile (Post-Tax Projection)
+- **Target:** 10,000 Min/Mo through distribution partners.
+- **Unit Margin:** ~30p profit per min (avg).
+- **Est. Monthly Net Profit:** ~£2,400 after UK Corporation Tax (19%).
 
 ---
 
-## 5. Technical Stack
-- **Languages:** Python (FastAPI), TypeScript (Next.js 16).
-- **Database:** Supabase (PostgreSQL).
-- **AI Suite:** Soniox (STT), OpenAI (LLM), ElevenLabs (TTS).
-- **Telephony:** Twilio Programmable Voice (Media Streams).
-- **Accounting:** Xero Integration.
+## 5. Roadmap Phase 2 (PMF Driven)
+- **Certified PDF Transcripts:** Value-added service (£5/copy).
+- **Whitelabel API:** For solicitors to provide the service directly to clients.
+- **Native Mobile App:** Only after clear segment dominance and proven PMF.
