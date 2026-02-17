@@ -1,92 +1,66 @@
-# Rexran Master Plan: From Zero to Global Dominance
+# ArabicCaller Master Plan v3.0 - Sovereign Edition
 
-## 1. The Vision & Mission
-To build the world's most stable, scalable, and developer-centric AI web orchestration ecosystem. Rexran aims to replace manual coding cycles for SaaS founders and agencies, providing full ownership and enterprise-grade quality.
+## 1. Vision & Mission
+To build the most secure, compliant, and reliable AI-powered live call translation infrastructure in the UK. ArabicCaller bridges the language gap for immigrants (Arabic/Urdu/Bengali/Somali ↔ English) while ensuring absolute data privacy and fiscal transparency.
 
 ## 2. Core Strategic Pillars
-- **Zero-Compromise Quality:** Production-ready Next.js 15+ by default.
-- **Sovereign Ownership:** No vendor lock-in. Full code and data control.
-- **RTL/Arabic Dominance:** The first AI builder to treat Arabic as a first-class citizen.
-- **Multi-Agent Stability:** Specialized AI roles to prevent code regressions.
+- **Privacy-First (GDPR/ICO):** Zero-persistence voice processing and automated data retention.
+- **Fiscal Integrity:** Real-time API usage tracking and automated cost kill-switches.
+- **Technical Excellence:** Modular FastAPI architecture with sub-second latency.
+- **User Empowerment:** Transparent PAYG (Pay-As-You-Go) pricing with zero commitment.
 
 ---
 
-## 3. 90-Day Execution Plan (Rexran v1.0 - The Beachhead)
+## 3. 8-Week Execution Roadmap
 
-### Days 1–30: Core Foundation & Infrastructure
-**Goal:** Establish the technical identity and basic project generation flow.
-- **Stack Lockdown:** Next.js 15 (App Router), Tailwind 4, Drizzle + Postgres, Node Edge Runtime.
-- **The "Elite SaaS Template":**
-    - Auth: Clerk integration.
-    - Billing: Stripe/LemonSqueezy ready.
-    - UI: Pro RTL Dashboard (Sidebar, Tables, Basic Charts).
-- **Discovery Engine (v0):** Prompt handling + Discovery questions (Brand, Roles, Logic) -> JSON Spec.
-- **GitHub Sync (v0):** Automated project creation, renaming, and initial push via script.
-- **Rexran CLI Lite:** Commands: `rex init`, `rex link`, `rex deploy`.
+### Week 1: Legal Fortress & Accreditation
+- **Entity:** Register UK LTD and open Wise/Stripe Business accounts.
+- **Compliance:** Register with ICO as Data Controller.
+- **Protection:** Secure Professional Indemnity Insurance and draft Legal Disclaimer.
+- **Telephony:** Authenticate Twilio Business Profile for local UK numbers.
 
-### Days 31–60: Usability & Real-World Generation
-**Goal:** Enable founders to go from Prompt to a working, deployed SaaS.
-- **"SaaS-in-a-Box" Reality:** Ensure a user can log in, answer discovery, and get a deployed Next.js app with working Auth and Billing.
-- **Code Generators:** Build specialized generators for DB Schema (Drizzle), React Pages/Routes, and CRUD API routes.
-- **Regression Memory (v0.1):** Save project specs; compare before new generations to prevent breaking changes.
-- **Observability (v0):** Internal dashboard for logs (generation time, errors) and user metrics.
-- **Beta Testing:** Onboard 5-10 users (Founders & Arabic Agencies). Aim for 2 successful live deployments.
+### Weeks 2–3: Elite Engine & Hard-Stop Logic
+- **Modular Backend:** FastAPI architecture separating STT (Soniox), LLM (GPT-4o mini), and TTS (ElevenLabs Turbo 2.5).
+- **Cybersecurity:** TLS 1.2+ encrypted WebSockets and In-Memory Buffer policy.
+- **Financial Guardian:** Implement server-side Hard-Stop logic to hang up calls when estimated cost hits user balance.
+- **Performance:** Sub-second latency optimization.
 
-### Days 61–90: Polish, Self-Healing & Launch
-**Goal:** Refine the experience and officially launch Rexran v1.0.
-- **The Face of Rexran:** Launch high-conversion Landing Page + User Dashboard (Project status: Draft, Generated, Deployed).
-- **Stability & Quality:**
-    - **Self-Healing (v0.1):** Auto-analyze build logs on failure and attempt auto-fixes.
-    - **Performance:** Ensure templates score >90 on Lighthouse.
-- **GTM (Go-To-Market):** Launch on X (Twitter) and Arabic developer communities.
-- **Official v1.0 Release:** Finalized feature set, Changelog, and Public Roadmap.
+### Weeks 4–5: Data Engineering & Dashboard
+- **Elite Schema (Supabase):** 
+    - `users`: Balance, preferred language, unique phone.
+    - `calls`: Metadata, Indexed `compliance_audit_id`, `retention_expiry_at`.
+    - `api_usage_logs`: Detailed tracking of tokens, characters, and costs per call.
+    - `transactions`: Ledger for top-ups and deductions.
+- **Observability:** Prometheus + Grafana for real-time latency and cost monitoring.
+- **User Portal:** Next.js 16 dashboard for credit management and language selection.
 
----
+### Week 6: Field Testing & Compliance Audit
+- **Closed Beta:** Pilot with 5 Community Ambassadors.
+- **Stress Test:** Simulate 50 concurrent calls using Locust.
+- **Retention Audit:** Verify automated data wiping based on expiry timestamps.
 
-## 4. Long-Term Roadmap (Months 4+)
-
-### Phase 2: Growth & Ecosystem (Months 4–12)
-- **Rexran Marketplace:** Community blueprints and UI components.
-- **Hybrid Editor:** Visual drag-and-drop + real-time AI streaming.
-- **Rexran Academy:** Community launch and "Rexran Founders" program.
-- **Infrastructure:** Managed Postgres and Object Storage.
-
-### Phase 3: Enterprise & Sovereignty (Year 2+)
-- **Enterprise Fortress:** SSO (SAML), RBAC, and VPC deployments.
-- **AI Governance:** Policy-based routing and SOC2 compliance.
-- **Global Scaling:** Multi-cloud distribution and auto-security patching.
+### Weeks 7–8: Commercial Launch & Growth
+- **Premium Pricing Strategy:**
+    - Starter: £0.50/min.
+    - Pro: £0.35/min.
+    - Enterprise: £0.25/min.
+- **Growth Loops:** WhatsApp referral system and Ambassador rewards.
+- **Strategic Ads:** Targeted Google/TikTok ads for GP, Council, and Banking scenarios.
 
 ---
 
-## 5. Technical Architecture & Elite Stack
-- **Frontend:** Next.js 15+, Tailwind CSS 4.0+.
-- **Backend:** Node.js Edge runtime, Drizzle ORM, PostgreSQL.
-- **Model Orchestration:**
-    - **Planning:** OpenAI o1 (Deep Reasoning).
-    - **Execution:** Claude 4.5 Sonnet (Lead Dev & UI).
-    - **Accuracy:** DeepSeek-R1 (Logic).
-    - **Memory:** Gemini 1.5 Pro (2M Context).
-
-## 6. Success Metrics
-- **Quality Score:** >90 Lighthouse on all generated projects.
-- **Stability:** Zero manual fixes for projects < 100 files.
-- **Speed:** Prompt to Production < 10 minutes.
+## 4. Financial Profile (10,000 Min/Mo Projection)
+- **Revenue:** ~£3,500.
+- **Operational Cost:** ~£450 (AI + Telephony).
+- **Fixed Overhead:** ~£60.
+- **Net Profit (Post-Tax):** ~£2,400/mo.
+- **Margin:** ~69%.
 
 ---
 
-## 7. Pricing & Go-To-Market (GTM)
-- **Pricing v1.0:**
-    - **Free:** 3 projects/mo (Watermarked footer).
-    - **Pro ($29/mo):** Unlimited projects + Custom domain + Priority queue.
-    - **Agency ($99/mo):** 5 seats + White-label + API access.
-- **Launch Channels:** X/Twitter (Personal + Brand), Arabic dev communities (Telegram/Discord), Pre-launch Waitlist.
-
-## 8. Risks & Mitigation
-1. **AI Model Cost Explosion:** Fixed model budget per project + fallback logic to DeepSeek/Flash.
-2. **Code Quality Regression:** Mandatory automated Lighthouse/Playwright tests before project delivery.
-3. **User Acquisition:** Community partnerships + Case studies from early adopters (Rexran Founders).
-
-## 9. Execution Team (v1.0)
-- **Product Owner:** Qutayba (Vision, User Testing, and Strategy).
-- **Core Engineering:** Rexran AI (Orchestrator, Generators, and CLI).
-- **UI/UX Design:** Contractor/Expert (Landing Page & RTL Perfected Template).
+## 5. Technical Stack
+- **Languages:** Python (FastAPI), TypeScript (Next.js 16).
+- **Database:** Supabase (PostgreSQL).
+- **AI Suite:** Soniox (STT), OpenAI (LLM), ElevenLabs (TTS).
+- **Telephony:** Twilio Programmable Voice (Media Streams).
+- **Accounting:** Xero Integration.
