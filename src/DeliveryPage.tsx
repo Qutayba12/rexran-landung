@@ -1,15 +1,12 @@
 import { useEffect, useState } from 'react'
 import RexMark from './RexMark'
+import { forceDownload } from './mediaUtils'
 
 type FileItem = { url: string; name: string; type: string; label?: string }
 type Delivery = { client: string; note: string; files: FileItem[]; createdAt: number | null }
 
 const isImage = (u: string) => /\.(jpe?g|png|webp|gif|avif)(\?|#|$)/i.test(u)
 const isVideo = (u: string) => /\.(mp4|mov|webm|m4v)(\?|#|$)/i.test(u)
-
-// Vercel Blob forces a real download (not in-browser view) when ?download=1 is added.
-// This works even cross-origin, where the HTML `download` attribute is ignored.
-const forceDownloadUrl = (u: string) => (u.includes('?') ? `${u}&download=1` : `${u}?download=1`)
 
 function getDeliveryId() {
   return new URLSearchParams(window.location.search).get('id')
@@ -92,17 +89,17 @@ export default function Delivery() {
   // download link wherever file-sharing isn't supported.
   const downloadFile = async (f: FileItem) => {
     setDownloadingUrl(f.url)
+    // iOS only offers "Save Video"/"Save Image" in the share sheet when the
+    // shared file's name carries a real extension — the friendly label alone
+    // (e.g. "Cinematic & Motion Design") makes it fall back to "Save to Files".
+    const ext = f.name.includes('.') ? f.name.slice(f.name.lastIndexOf('.')) : ''
+    const base = f.label || f.name || 'rexran-file'
+    const filename = ext && !base.toLowerCase().endsWith(ext.toLowerCase()) ? `${base}${ext}` : base
     let handled = false
     try {
       const res = await fetch(f.url)
       if (!res.ok) throw new Error('fetch failed')
       const blob = await res.blob()
-      // iOS only offers "Save Video"/"Save Image" in the share sheet when the
-      // shared file's name carries a real extension — the friendly label
-      // alone (e.g. "Cinematic & Motion Design") makes it fall back to "Save to Files".
-      const ext = f.name.includes('.') ? f.name.slice(f.name.lastIndexOf('.')) : ''
-      const base = f.label || f.name || 'rexran-file'
-      const filename = ext && !base.toLowerCase().endsWith(ext.toLowerCase()) ? `${base}${ext}` : base
       const file = new File([blob], filename, { type: f.type || blob.type })
       if (navigator.canShare?.({ files: [file] })) {
         try {
@@ -114,11 +111,10 @@ export default function Delivery() {
           if (e instanceof Error && e.name === 'AbortError') handled = true
         }
       }
-    } catch { /* fetch/blob failed — fall through to the plain download link below */ }
+    } catch { /* fetch/blob failed — fall through to the forced download below */ }
     if (!handled) {
-      const a = document.createElement('a')
-      a.href = forceDownloadUrl(f.url)
-      a.click()
+      try { await forceDownload(f.url, filename) }
+      catch { const a = document.createElement('a'); a.href = f.url; a.click() }
     }
     setDownloadingUrl(null)
   }

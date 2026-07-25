@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import RexMark from './RexMark'
 import { trackPurchase } from './analytics'
+import { r2Upload } from './mediaUtils'
 
 function useReveal() {
   useEffect(() => {
@@ -579,11 +580,8 @@ function CheckoutModal({ plan, initialStep, onClose, promo }: { plan: string; in
     const toUpload = Array.from(files).slice(0, room)
     setUploadingPhotos(true)
     try {
-      // Lazy-loaded: this ~28KB (gzipped) client only downloads when a
-      // customer actually adds a photo, not on every homepage visit.
-      const { upload } = await import('@vercel/blob/client')
       const uploaded = await Promise.all(toUpload.map((file) =>
-        upload(file.name, file, { access: 'public', handleUploadUrl: '/api/customer-upload' }).then((b) => b.url)
+        r2Upload(file, { endpoint: '/api/customer-upload' })
       ))
       setPhotos((p) => [...p, ...uploaded])
     } catch (e) {

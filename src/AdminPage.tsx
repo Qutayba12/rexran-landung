@@ -1,29 +1,9 @@
 import { useEffect, useState, type ReactNode } from 'react'
-import { upload } from '@vercel/blob/client'
 import RexMark from './RexMark'
+import { r2Upload, forceDownload, contentTypeFor } from './mediaUtils'
 
 type Video = { id: string; title: string; url: string; type: string; poster?: string }
 const TYPES = ['UGC', 'Static', 'Cinematic & Motion Design', 'Photoshoot', 'Campaign']
-
-// Vercel Blob forces a real download (not in-browser view) when ?download=1 is
-// added — works cross-origin, where the HTML `download` attribute is ignored.
-const forceDownloadUrl = (u: string) => (u.includes('?') ? `${u}&download=1` : `${u}?download=1`)
-
-// Browsers (Windows especially) sometimes hand us a File with an empty or
-// generic `type`, which Vercel Blob then rejects against the allowed content
-// types. Fall back to a type guessed from the extension so the upload always
-// declares a real image/* or video/* content type.
-const EXT_CONTENT_TYPES: Record<string, string> = {
-  mp4: 'video/mp4', mov: 'video/quicktime', webm: 'video/webm', m4v: 'video/x-m4v',
-  mkv: 'video/x-matroska', avi: 'video/x-msvideo', '3gp': 'video/3gpp', ogv: 'video/ogg',
-  jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp',
-  gif: 'image/gif', avif: 'image/avif', heic: 'image/heic', heif: 'image/heif', bmp: 'image/bmp',
-}
-const contentTypeFor = (file: File): string | undefined => {
-  if (file.type) return file.type
-  const ext = file.name.toLowerCase().split('.').pop() || ''
-  return EXT_CONTENT_TYPES[ext]
-}
 
 type WorkspaceView = 'hub' | 'videos' | 'orders' | 'deliveries' | 'testimonials' | 'promos'
 
@@ -96,15 +76,9 @@ export default function Admin() {
   const uploadFile = async (file: File) => {
     setErr(''); setUploading(true); setUploadPct(0)
     try {
-      const blob = await upload(file.name, file, {
-        access: 'public',
-        handleUploadUrl: '/api/upload',
-        contentType: contentTypeFor(file),
-        clientPayload: JSON.stringify({ password: pw }),
-        onUploadProgress: (p) => setUploadPct(Math.round(p.percentage)),
-      })
+      const publicUrl = await r2Upload(file, { endpoint: '/api/upload', password: pw, onProgress: setUploadPct })
       setUploadPct(100)
-      setUrl(blob.url)
+      setUrl(publicUrl)
     } catch (e) {
       setErr('Upload failed: ' + String(e instanceof Error ? e.message : e))
     } finally {
@@ -418,14 +392,8 @@ export default function Admin() {
   const uploadDeliveryFile = async (file: File) => {
     setDErr(''); setDUploading(true); setDPct(0)
     try {
-      const blob = await upload(file.name, file, {
-        access: 'public',
-        handleUploadUrl: '/api/upload',
-        contentType: contentTypeFor(file),
-        clientPayload: JSON.stringify({ password: pw }),
-        onUploadProgress: (p) => setDPct(Math.round(p.percentage)),
-      })
-      setDFiles((prev) => [...prev, { url: blob.url, name: file.name, type: file.type, label: dLabel }])
+      const publicUrl = await r2Upload(file, { endpoint: '/api/upload', password: pw, onProgress: setDPct })
+      setDFiles((prev) => [...prev, { url: publicUrl, name: file.name, type: contentTypeFor(file), label: dLabel }])
     } catch (e) {
       setDErr('Upload failed: ' + String(e instanceof Error ? e.message : e))
     } finally {
@@ -704,7 +672,7 @@ export default function Admin() {
                           {o.photos.map((url, i) => (
                             <div className="adm-order-photo" key={i}>
                               <a href={url} target="_blank" rel="noreferrer" title="Open full size"><img src={url} alt="" loading="lazy" /></a>
-                              <a className="adm-photo-dl" href={forceDownloadUrl(url)}>Download</a>
+                              <button type="button" className="adm-photo-dl" onClick={() => forceDownload(url, url.split('/').pop() || 'photo')}>Download</button>
                             </div>
                           ))}
                         </div>
