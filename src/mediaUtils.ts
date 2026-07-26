@@ -19,6 +19,64 @@ export function contentTypeFor(file: File): string {
   return EXT_CONTENT_TYPES[ext] || 'application/octet-stream'
 }
 
+const isVideoFile = (file: File) => /^video\//.test(contentTypeFor(file))
+const isImageFile = (file: File) => /^image\//.test(contentTypeFor(file))
+
+// Shrink an oversized showcase image before upload so it loads fast on mobile.
+// Re-encodes to JPEG at up to `maxDim` on the long edge. Leaves small images,
+// non-images, GIFs (animation), and anything that fails to decode untouched.
+export async function downscaleImage(file: File, maxDim = 1600, quality = 0.82): Promise<File> {
+  if (!isImageFile(file) || /gif$/i.test(contentTypeFor(file))) return file
+  try {
+    const bitmap = await createImageBitmap(file)
+    const scale = Math.min(1, maxDim / Math.max(bitmap.width, bitmap.height))
+    if (scale >= 1 && file.size < 600 * 1024) { bitmap.close(); return file }
+    const canvas = document.createElement('canvas')
+    canvas.width = Math.round(bitmap.width * scale)
+    canvas.height = Math.round(bitmap.height * scale)
+    const ctx = canvas.getContext('2d')
+    if (!ctx) { bitmap.close(); return file }
+    ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height)
+    bitmap.close()
+    const blob: Blob | null = await new Promise((r) => canvas.toBlob(r, 'image/jpeg', quality))
+    if (!blob || blob.size >= file.size) return file
+    const name = file.name.replace(/\.[^.]+$/, '') + '.jpg'
+    return new File([blob], name, { type: 'image/jpeg' })
+  } catch { return file }
+}
+
+// Capture a video's first frame as a small JPEG so the card shows an instant
+// still (poster) while the clip buffers — the biggest perceived-speed win on
+// mobile. Returns null if the frame can't be captured.
+export async function makeVideoPoster(file: File, maxDim = 720): Promise<File | null> {
+  if (!isVideoFile(file)) return null
+  return new Promise((resolve) => {
+    const url = URL.createObjectURL(file)
+    const video = document.createElement('video')
+    let done = false
+    const finish = (result: File | null) => { if (done) return; done = true; URL.revokeObjectURL(url); resolve(result) }
+    video.muted = true
+    video.playsInline = true
+    video.preload = 'metadata'
+    video.onloadeddata = () => { try { video.currentTime = Math.min(0.1, (video.duration || 1) / 2) } catch { finish(null) } }
+    video.onseeked = () => {
+      const w = video.videoWidth, h = video.videoHeight
+      if (!w || !h) return finish(null)
+      const scale = Math.min(1, maxDim / Math.max(w, h))
+      const canvas = document.createElement('canvas')
+      canvas.width = Math.round(w * scale)
+      canvas.height = Math.round(h * scale)
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return finish(null)
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+      canvas.toBlob((b) => finish(b ? new File([b], 'poster.jpg', { type: 'image/jpeg' }) : null), 'image/jpeg', 0.8)
+    }
+    video.onerror = () => finish(null)
+    setTimeout(() => finish(null), 8000)
+    video.src = url
+  })
+}
+
 function putWithProgress(url: string, file: File, contentType: string, onProgress?: (pct: number) => void): Promise<void> {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest()
