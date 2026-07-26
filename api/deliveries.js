@@ -5,6 +5,7 @@ import { Redis } from '@upstash/redis'
 import crypto from 'crypto'
 import { checkPassword } from './_lib/auth.js'
 import { isBlockedByFailedAttempts, recordFailedAttempt } from './_lib/rateLimit.js'
+import { toCdnUrl } from './_lib/r2.js'
 
 const redis = Redis.fromEnv()
 const KEY = 'rexran:deliveries'
@@ -31,7 +32,8 @@ export default async function handler(req, res) {
     let list = (await redis.get(KEY)) || []
 
     if (action === 'list') {
-      return res.status(200).json({ ok: true, deliveries: list })
+      const deliveries = list.map((d) => ({ ...d, files: (d.files || []).map((f) => ({ ...f, url: toCdnUrl(f.url) })) }))
+      return res.status(200).json({ ok: true, deliveries })
     }
 
     if (action === 'create') {
