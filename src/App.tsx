@@ -220,6 +220,21 @@ function VideoCard({ v, onOpen }: { v: VideoItem; onOpen: (v: VideoItem) => void
   const ref = useRef<HTMLVideoElement>(null)
   const [muted, setMuted] = useState(true)
 
+  // Only load + play a clip while it's actually on screen. In the horizontal
+  // carousel that means just the visible video(s) buffer and run, instead of
+  // every clip downloading and playing at once — a big bandwidth win and a much
+  // faster first frame. preload="metadata" keeps off-screen cards near-idle.
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const io = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) el.play().catch(() => {}); else el.pause() },
+      { threshold: 0.25 },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
+
   const onClick = () => {
     const el = ref.current
     if (!el) return
@@ -238,7 +253,7 @@ function VideoCard({ v, onOpen }: { v: VideoItem; onOpen: (v: VideoItem) => void
     <figure className="vid3d-card" onMouseMove={tilt3D} onMouseLeave={resetTilt3D}>
       <div className="glow" />
       <div className="vid-frame" onClick={onClick}>
-        <video ref={ref} src={v.url} poster={v.poster || undefined} autoPlay muted loop playsInline preload="auto" />
+        <video ref={ref} src={v.url} poster={v.poster || undefined} muted loop playsInline preload="metadata" />
         {muted && (
           <button className="vid-sound" aria-label="Unmute">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
