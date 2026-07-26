@@ -3,6 +3,7 @@
 import { Redis } from '@upstash/redis'
 import { checkPassword } from './_lib/auth.js'
 import { isBlockedByFailedAttempts, recordFailedAttempt } from './_lib/rateLimit.js'
+import { toCdnUrl } from './_lib/r2.js'
 
 const redis = Redis.fromEnv()
 const KEY = 'rexran:orders'
@@ -20,7 +21,8 @@ export default async function handler(req, res) {
   }
 
   try {
-    const orders = (await redis.get(KEY)) || []
+    const stored = (await redis.get(KEY)) || []
+    const orders = stored.map((o) => ({ ...o, photos: Array.isArray(o.photos) ? o.photos.map(toCdnUrl) : o.photos }))
     return res.status(200).json({ ok: true, orders })
   } catch (e) {
     return res.status(500).json({ error: 'Server error', detail: String(e) })

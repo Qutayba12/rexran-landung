@@ -50,6 +50,16 @@ export function buildKey(prefix, filename) {
   return `${prefix}${Date.now()}-${rand}-${safeName(filename)}`
 }
 
+// Upgrade an already-stored media url to the configured public base. Objects
+// uploaded before a custom domain was connected carry the slow, rate-limited
+// pub-*.r2.dev host; the same object is also served from the custom domain
+// (R2_PUBLIC_BASE_URL), so swapping the host here makes existing media fast with
+// no re-upload. A no-op for urls already on the public base or non-R2 urls.
+export function toCdnUrl(url) {
+  if (typeof url !== 'string' || !R2_PUBLIC_BASE_URL) return url
+  return url.replace(/^https?:\/\/pub-[a-z0-9]+\.r2\.dev/i, R2_PUBLIC_BASE_URL.replace(/\/+$/, ''))
+}
+
 // Presign a PUT for `key`; returns the upload url (short-lived) and the object's
 // permanent public url.
 export async function presignPut(key) {

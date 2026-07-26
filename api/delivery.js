@@ -1,6 +1,7 @@
 // GET /api/delivery?id=xxxx — public: returns ONE delivery for the customer page.
 // The unguessable id acts as the access key. Returns only what the page needs.
 import { Redis } from '@upstash/redis'
+import { toCdnUrl } from './_lib/r2.js'
 
 const redis = Redis.fromEnv()
 const KEY = 'rexran:deliveries'
@@ -16,7 +17,7 @@ export default async function handler(req, res) {
     return res.status(200).json({
       client: d.client || '',
       note: d.note || '',
-      files: d.files || [],
+      files: (d.files || []).map((f) => ({ ...f, url: toCdnUrl(f.url) })),
       createdAt: d.createdAt || null,
     })
   } catch (e) {
