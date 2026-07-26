@@ -76,7 +76,7 @@ export default function Admin() {
   const uploadFile = async (file: File) => {
     setErr(''); setUploading(true); setUploadPct(0)
     try {
-      const publicUrl = await r2Upload(file, { endpoint: '/api/upload', password: pw, onProgress: setUploadPct })
+      const publicUrl = await r2Upload(file, { endpoint: '/api/upload', password: pw, kind: 'portfolio', onProgress: setUploadPct })
       setUploadPct(100)
       setUrl(publicUrl)
     } catch (e) {
@@ -392,7 +392,7 @@ export default function Admin() {
   const uploadDeliveryFile = async (file: File) => {
     setDErr(''); setDUploading(true); setDPct(0)
     try {
-      const publicUrl = await r2Upload(file, { endpoint: '/api/upload', password: pw, onProgress: setDPct })
+      const publicUrl = await r2Upload(file, { endpoint: '/api/upload', password: pw, kind: 'delivery', onProgress: setDPct })
       setDFiles((prev) => [...prev, { url: publicUrl, name: file.name, type: contentTypeFor(file), label: dLabel }])
     } catch (e) {
       setDErr('Upload failed: ' + String(e instanceof Error ? e.message : e))

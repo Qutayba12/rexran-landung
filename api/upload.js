@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' })
   if (!r2Configured()) return res.status(500).json({ error: 'Media storage is not configured. Add the R2_* env vars and redeploy.' })
 
-  const { password, filename, contentType } = req.body || {}
+  const { password, filename, contentType, kind } = req.body || {}
 
   if (await isBlockedByFailedAttempts(req, 'admin', 10)) {
     return res.status(429).json({ error: 'Too many attempts. Try again later.' })
@@ -24,8 +24,12 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: 'Only image or video files are allowed.' })
   }
 
+  // Keep the two admin flows in separate folders so the R2 dashboard makes it
+  // obvious what's a showcase asset vs. a client deliverable.
+  const prefix = kind === 'delivery' ? 'deliveries/' : 'portfolio/'
+
   try {
-    const { uploadUrl, publicUrl } = await presignPut(buildKey('media/', filename))
+    const { uploadUrl, publicUrl } = await presignPut(buildKey(prefix, filename))
     return res.status(200).json({ uploadUrl, publicUrl })
   } catch (e) {
     return res.status(500).json({ error: String(e instanceof Error ? e.message : e) })
