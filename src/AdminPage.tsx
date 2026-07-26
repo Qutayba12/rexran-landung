@@ -1,6 +1,6 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import RexMark from './RexMark'
-import { r2Upload, forceDownload, contentTypeFor } from './mediaUtils'
+import { r2Upload, forceDownload, contentTypeFor, downscaleImage, makeVideoPoster } from './mediaUtils'
 
 type Video = { id: string; title: string; url: string; type: string; poster?: string }
 const TYPES = ['UGC', 'Static', 'Cinematic & Motion Design', 'Photoshoot', 'Campaign']
@@ -76,9 +76,20 @@ export default function Admin() {
   const uploadFile = async (file: File) => {
     setErr(''); setUploading(true); setUploadPct(0)
     try {
-      const publicUrl = await r2Upload(file, { endpoint: '/api/upload', password: pw, kind: 'portfolio', onProgress: setUploadPct })
+      const isVideo = /^video\//.test(contentTypeFor(file))
+      // Showcase images are shrunk before upload so they load fast on mobile;
+      // videos upload as-is but we grab a lightweight poster (below).
+      const toSend = isVideo ? file : await downscaleImage(file)
+      const publicUrl = await r2Upload(toSend, { endpoint: '/api/upload', password: pw, kind: 'portfolio', onProgress: setUploadPct })
       setUploadPct(100)
       setUrl(publicUrl)
+      if (isVideo) {
+        const poster = await makeVideoPoster(file).catch(() => null)
+        if (poster) {
+          const posterUrl = await r2Upload(poster, { endpoint: '/api/upload', password: pw, kind: 'portfolio' }).catch(() => '')
+          if (posterUrl) setPoster(posterUrl)
+        }
+      }
     } catch (e) {
       setErr('Upload failed: ' + String(e instanceof Error ? e.message : e))
     } finally {
