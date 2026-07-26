@@ -35,13 +35,13 @@ function putWithProgress(url: string, file: File, contentType: string, onProgres
 // object's permanent public url.
 export async function r2Upload(
   file: File,
-  opts: { endpoint: string; password?: string; onProgress?: (pct: number) => void },
+  opts: { endpoint: string; password?: string; kind?: string; onProgress?: (pct: number) => void },
 ): Promise<string> {
   const contentType = contentTypeFor(file)
   const res = await fetch(opts.endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ password: opts.password, filename: file.name, contentType }),
+    body: JSON.stringify({ password: opts.password, filename: file.name, contentType, kind: opts.kind }),
   })
   const data = await res.json().catch(() => ({}))
   if (!res.ok || !data.uploadUrl) throw new Error(data.error || 'Could not start the upload')
