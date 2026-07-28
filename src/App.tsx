@@ -1041,6 +1041,13 @@ export default function App() {
 
       <nav className={`nav${scrolled ? ' scrolled' : ''}`}>
         <a className="brand" href="#top" onClick={() => setMenuOpen(false)}><RexMark className="brand-logo" />Rexran</a>
+        <div className="nav-links">
+          <a href="#work">Work</a>
+          <a href="/studio">Studio</a>
+          <a href="#pricing">Pricing</a>
+          <a href="/guides">Guides</a>
+          <a href="#faq">FAQ</a>
+        </div>
         <a className="nav-cta" href="#pricing">Start a project</a>
         <button className={`nav-burger${menuOpen ? ' open' : ''}`} onClick={() => setMenuOpen((v) => !v)} aria-label="Menu" aria-expanded={menuOpen}>
           <span /><span /><span />
@@ -1068,7 +1075,7 @@ export default function App() {
         </h1>
         <p className="hero-sub">
           Rexran turns one product link into cinematic UGC video, scroll-stopping statics, and 4K product
-          films — produced by hand, delivered as full-quality downloads in 48 hours. No actors. No crew. No software to learn.
+          photography — produced by hand, delivered as full-quality downloads in 48 hours. No actors. No crew. No software to learn.
         </p>
         <div className="hero-actions">
           <a className="cta" href="#pricing">Start a project</a>
