@@ -72,6 +72,9 @@ export default function Admin() {
   const [poster, setPoster] = useState('')
   const [uploading, setUploading] = useState(false)
   const [uploadPct, setUploadPct] = useState(0)
+  // True during the post-upload poster capture for a video, so the UI can say
+  // "Preparing preview…" and keep Add disabled until the poster is attached.
+  const [preparing, setPreparing] = useState(false)
 
   const uploadFile = async (file: File) => {
     setErr(''); setUploading(true); setUploadPct(0)
@@ -84,6 +87,7 @@ export default function Admin() {
       setUploadPct(100)
       setUrl(publicUrl)
       if (isVideo) {
+        setPreparing(true)
         const poster = await makeVideoPoster(file).catch(() => null)
         if (poster) {
           const posterUrl = await r2Upload(poster, { endpoint: '/api/upload', password: pw, kind: 'portfolio' }).catch(() => '')
@@ -93,6 +97,7 @@ export default function Admin() {
     } catch (e) {
       setErr('Upload failed: ' + String(e instanceof Error ? e.message : e))
     } finally {
+      setPreparing(false)
       setUploading(false)
     }
   }
@@ -588,7 +593,7 @@ export default function Admin() {
             <input type="file" accept="video/*,image/*" style={{ display: 'none' }}
               onChange={(e) => e.target.files?.[0] && uploadFile(e.target.files[0])} disabled={uploading} />
             {uploading ? (
-              <div className="adm-prog"><div className="adm-prog-bar" style={{ width: `${uploadPct}%` }} /><span>Uploading… {uploadPct}%</span></div>
+              <div className="adm-prog"><div className="adm-prog-bar" style={{ width: `${uploadPct}%` }} /><span>{preparing ? 'Preparing preview…' : `Uploading… ${uploadPct}%`}</span></div>
             ) : (
               <div className="adm-drop-in"><span className="adm-drop-plus">↑</span><strong>Upload a video or image from your device</strong><span className="adm-drop-hint">MP4, MOV, WebM or images · up to 500MB</span></div>
             )}
@@ -604,7 +609,7 @@ export default function Admin() {
           <div className="field"><label>Poster image URL (optional)</label><input value={poster} onChange={(e) => setPoster(e.target.value)} placeholder="https://…/thumb.jpg" /></div>
         </div>
         {err && <div className="adm-err">{err}</div>}
-        <button className="cta" onClick={addVideo} disabled={loading}>{loading ? 'Saving…' : 'Add video'}</button>
+        <button className="cta" onClick={addVideo} disabled={loading || uploading}>{uploading ? (preparing ? 'Preparing preview…' : 'Uploading…') : loading ? 'Saving…' : 'Add video'}</button>
       </section>
 
       <section className="adm-section">
