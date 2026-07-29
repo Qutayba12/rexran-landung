@@ -239,7 +239,15 @@ function VideoCard({ v, onOpen }: { v: VideoItem; onOpen: (v: VideoItem) => void
           <video ref={ref} src={v.url} poster={v.poster || undefined} controls autoPlay loop playsInline preload="auto" />
         ) : (
           <button className="vid-play" onClick={() => setPlaying(true)} aria-label={`Play ${v.type} video`}>
-            {v.poster ? <img src={v.poster} alt={`${v.type} ad preview`} loading="lazy" /> : <span className="vid-play-bg" />}
+            {v.poster ? (
+              <img src={v.poster} alt={`${v.type} ad preview`} loading="lazy" />
+            ) : (
+              // Fallback when no poster was captured on upload (e.g. iPhone HEVC
+              // clips the uploader's browser couldn't decode to a still): show
+              // the video's own first frame via a metadata-only load — a few KB,
+              // not the whole clip — so the card never shows an empty dark box.
+              <video className="vid-poster-fallback" src={`${v.url}#t=0.1`} preload="metadata" muted playsInline tabIndex={-1} aria-hidden="true" />
+            )}
             <span className="vid-play-btn"><PlayIcon /></span>
           </button>
         )}
