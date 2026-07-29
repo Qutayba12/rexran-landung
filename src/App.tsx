@@ -50,21 +50,21 @@ const MIN_ORDER = 25
 
 const PLANS = [
   { name: 'Spark', price: '$39', per: '/ project', desc: 'A quick test spot to see how AI creative performs for your product.',
-    items: ['1 UGC video · 15s', '1 static ad creative', 'One aspect ratio', '48-hour delivery'], feat: false },
-  { name: 'Growth', price: '$99', per: '/ project', desc: 'The package most stores run with — a full talking spot plus statics.',
-    items: ['1 UGC video · 30s', '3 static ad creatives', 'AI actor + voiceover', 'Up to 2 aspect ratios', '48-hour delivery'], feat: true },
+    items: ['1 UGC video · 15s', '2 hook variations', '1 static ad creative', '2 aspect ratios', '48-hour delivery'], feat: false },
+  { name: 'Growth', price: '$99', per: '/ project', desc: 'The package most stores run with — a full video set plus statics, ready to test and scale.',
+    items: ['2 UGC videos · 30s', 'AI actor + voiceover', '3 hook variations', '4 static ad creatives', 'All aspect ratios', '1 revision round', '48-hour delivery'], feat: true },
   { name: 'Scale', price: '$199', per: '/ project', desc: 'A launch-ready kit when you want to go live on every channel at once.',
-    items: ['2 UGC videos · 30s each', '1 Cinematic & Motion Design · 30s', '5 static creatives', 'All aspect ratios', 'Priority delivery'], feat: false },
+    items: ['3 UGC videos · 30s each', '1 Cinematic & Motion Design · 30s', '6 static creatives', 'Product photoshoot · 3 images', 'All aspect ratios', '2 revision rounds', 'Priority delivery'], feat: false },
   { name: 'Brand Partner', price: '$549', per: '/ month', desc: 'Fresh creative on tap for stores that feed paid social every week.',
-    items: ['4 UGC videos · 30s each / month', '1 Cinematic & Motion Design · 30s / month', '10 statics / month', 'Rolling revisions', 'Direct line on Instagram'], feat: false },
+    items: ['6 UGC videos · 30s each / month', '2 Cinematic & Motion Design · 30s / month', '12 statics / month', 'Monthly trend & hook refresh', 'Rolling revisions', 'Priority queue + direct line on Instagram'], feat: false },
 ]
 
 type PlanContent = { key: string; label: string; ratios: string[]; qty: number; duration?: number }
 const PLAN_CONTENTS: Record<string, PlanContent[]> = {
   Spark: [{ key: 'ugc', label: 'UGC video', ratios: VIDEO_RATIOS, qty: 1, duration: 15 }, { key: 'static', label: 'Static ad image', ratios: IMAGE_RATIOS, qty: 1 }],
-  Growth: [{ key: 'ugc', label: 'UGC video', ratios: VIDEO_RATIOS, qty: 1, duration: 30 }, { key: 'static', label: 'Static ad images', ratios: IMAGE_RATIOS, qty: 3 }],
-  Scale: [{ key: 'ugc', label: 'UGC videos', ratios: VIDEO_RATIOS, qty: 2, duration: 30 }, { key: 'cine', label: 'Cinematic & Motion Design', ratios: VIDEO_RATIOS, qty: 1, duration: 30 }, { key: 'static', label: 'Static ad images', ratios: IMAGE_RATIOS, qty: 5 }],
-  'Brand Partner': [{ key: 'ugc', label: 'UGC videos', ratios: VIDEO_RATIOS, qty: 4, duration: 30 }, { key: 'cine', label: 'Cinematic & Motion Design', ratios: VIDEO_RATIOS, qty: 1, duration: 30 }, { key: 'static', label: 'Static ad images', ratios: IMAGE_RATIOS, qty: 10 }],
+  Growth: [{ key: 'ugc', label: 'UGC videos', ratios: VIDEO_RATIOS, qty: 2, duration: 30 }, { key: 'static', label: 'Static ad images', ratios: IMAGE_RATIOS, qty: 4 }],
+  Scale: [{ key: 'ugc', label: 'UGC videos', ratios: VIDEO_RATIOS, qty: 3, duration: 30 }, { key: 'cine', label: 'Cinematic & Motion Design', ratios: VIDEO_RATIOS, qty: 1, duration: 30 }, { key: 'static', label: 'Static ad images', ratios: IMAGE_RATIOS, qty: 6 }, { key: 'shoot', label: 'Product photoshoot images', ratios: IMAGE_RATIOS, qty: 3 }],
+  'Brand Partner': [{ key: 'ugc', label: 'UGC videos', ratios: VIDEO_RATIOS, qty: 6, duration: 30 }, { key: 'cine', label: 'Cinematic & Motion Design', ratios: VIDEO_RATIOS, qty: 2, duration: 30 }, { key: 'static', label: 'Static ad images', ratios: IMAGE_RATIOS, qty: 12 }],
 }
 
 // One size per unit. A length-1 selection means "this size for all N units"
