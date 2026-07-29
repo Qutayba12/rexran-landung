@@ -504,7 +504,8 @@ body.has-promo .hero { padding-top: calc(130px + var(--promo-h, 46px)); }
 .vid-frame img { width: 100%; height: 100%; object-fit: cover; display: block; background: #0e0c12; }
 /* Poster-first play affordance — shown until the visitor taps to load the clip. */
 .vid-play { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: none; background: #0e0c12; cursor: pointer; display: block; }
-.vid-play img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vid-play img,
+.vid-play .vid-poster-fallback { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
 .vid-play-bg { position: absolute; inset: 0; background: radial-gradient(120% 120% at 50% 0%, #17131c, #0a0810); }
 .vid-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 62px; height: 62px; border-radius: 50%;
   display: flex; align-items: center; justify-content: center; padding-left: 3px; color: #0c0a10;
