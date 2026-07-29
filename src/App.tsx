@@ -216,50 +216,31 @@ function PlusIcon() {
   )
 }
 
+function PlayIcon() {
+  return <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z" /></svg>
+}
+
+// Poster-first, tap-to-play. The card shows only a lightweight poster image on
+// load, so the whole gallery paints instantly and NO video bytes are fetched
+// until a visitor taps play — this is what keeps it fast on mobile without a
+// streaming platform. The clip then loads and plays with sound (the tap is the
+// required user gesture).
 function VideoCard({ v, onOpen }: { v: VideoItem; onOpen: (v: VideoItem) => void }) {
   const ref = useRef<HTMLVideoElement>(null)
-  const [muted, setMuted] = useState(true)
+  const [playing, setPlaying] = useState(false)
 
-  // Only load + play a clip while it's actually on screen. In the horizontal
-  // carousel that means just the visible video(s) buffer and run, instead of
-  // every clip downloading and playing at once — a big bandwidth win and a much
-  // faster first frame. preload="metadata" keeps off-screen cards near-idle.
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const io = new IntersectionObserver(
-      ([entry]) => { if (entry.isIntersecting) el.play().catch(() => {}); else el.pause() },
-      { threshold: 0.25 },
-    )
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-
-  const onClick = () => {
-    const el = ref.current
-    if (!el) return
-    if (muted) {
-      el.muted = false
-      el.currentTime = 0
-      el.play().catch(() => {})
-      setMuted(false)
-    } else {
-      el.muted = true
-      setMuted(true)
-    }
-  }
+  useEffect(() => { if (playing) ref.current?.play().catch(() => {}) }, [playing])
 
   return (
     <figure className="vid3d-card" onMouseMove={tilt3D} onMouseLeave={resetTilt3D}>
       <div className="glow" />
-      <div className="vid-frame" onClick={onClick}>
-        <video ref={ref} src={v.url} poster={v.poster || undefined} muted loop playsInline preload="metadata" />
-        {muted && (
-          <button className="vid-sound" aria-label="Unmute">
-            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M11 5 6 9H2v6h4l5 4V5z" /><line x1="23" y1="9" x2="17" y2="15" /><line x1="17" y1="9" x2="23" y2="15" />
-            </svg>
-            <span>Tap for sound</span>
+      <div className="vid-frame">
+        {playing ? (
+          <video ref={ref} src={v.url} poster={v.poster || undefined} controls autoPlay loop playsInline preload="auto" />
+        ) : (
+          <button className="vid-play" onClick={() => setPlaying(true)} aria-label={`Play ${v.type} video`}>
+            {v.poster ? <img src={v.poster} alt={`${v.type} ad preview`} loading="lazy" /> : <span className="vid-play-bg" />}
+            <span className="vid-play-btn"><PlayIcon /></span>
           </button>
         )}
         <button className="vid-expand" aria-label="Expand video" onClick={(e) => { e.stopPropagation(); onOpen(v) }}>
@@ -277,11 +258,12 @@ function VideoCard({ v, onOpen }: { v: VideoItem; onOpen: (v: VideoItem) => void
 // customer stops interacting. Respects prefers-reduced-motion (no autoplay).
 // Shared by the Videos and Photos rows — pass a renderCard for each; `kind`
 // only labels the arrows for screen readers.
-function MediaCarousel({ items, onOpen, renderCard, kind }: {
+function MediaCarousel({ items, onOpen, renderCard, kind, autoAdvance = true }: {
   items: VideoItem[]
   onOpen: (v: VideoItem) => void
   renderCard: (v: VideoItem, onOpen: (v: VideoItem) => void) => React.ReactNode
   kind: string
+  autoAdvance?: boolean
 }) {
   const trackRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
@@ -313,11 +295,11 @@ function MediaCarousel({ items, onOpen, renderCard, kind }: {
   }
 
   useEffect(() => {
-    if (items.length <= 1) return
+    if (!autoAdvance || items.length <= 1) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
     const id = setInterval(() => { if (!paused) advance(1) }, 4200)
     return () => clearInterval(id)
-  }, [paused, items.length])
+  }, [paused, items.length, autoAdvance])
 
   const step = (dir: 1 | -1) => { pauseNow(); advance(dir); scheduleResume(4500) }
 
@@ -1106,7 +1088,7 @@ export default function App() {
           {videoItems.length > 0 && (
             <div>
               <div className="sec-tag med-tag">Videos</div>
-              <MediaCarousel items={videoItems} onOpen={setMediaLightbox} kind="video"
+              <MediaCarousel items={videoItems} onOpen={setMediaLightbox} kind="video" autoAdvance={false}
                 renderCard={(v, open) => <VideoCard key={v.id} v={v} onOpen={open} />} />
             </div>
           )}

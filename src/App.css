@@ -502,6 +502,15 @@ body.has-promo .hero { padding-top: calc(130px + var(--promo-h, 46px)); }
 .vid-frame { position: relative; width: 100%; aspect-ratio: 9 / 16; background: #0e0c12; cursor: pointer; overflow: hidden; }
 .vid-frame video { width: 100%; height: 100%; object-fit: cover; display: block; background: #0e0c12; }
 .vid-frame img { width: 100%; height: 100%; object-fit: cover; display: block; background: #0e0c12; }
+/* Poster-first play affordance — shown until the visitor taps to load the clip. */
+.vid-play { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: none; background: #0e0c12; cursor: pointer; display: block; }
+.vid-play img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.vid-play-bg { position: absolute; inset: 0; background: radial-gradient(120% 120% at 50% 0%, #17131c, #0a0810); }
+.vid-play-btn { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); width: 62px; height: 62px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; padding-left: 3px; color: #0c0a10;
+  background: linear-gradient(180deg, var(--gold-hi), var(--gold) 65%, var(--gold-deep));
+  box-shadow: 0 10px 34px rgba(212,175,55,.35), inset 0 1px 0 rgba(255,255,255,.55); transition: transform .25s cubic-bezier(.16,1,.3,1); }
+.vid-play:hover .vid-play-btn { transform: translate(-50%,-50%) scale(1.09); }
 .vid-type { font-family: var(--mono); font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold); }
 .vid-sound { position: absolute; left: 10px; bottom: 10px; display: inline-flex; align-items: center; gap: 6px;
   padding: 7px 11px; border-radius: 100px; border: 1px solid rgba(212,175,55,.5);
