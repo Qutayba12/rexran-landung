@@ -3,6 +3,7 @@ import './App.css'
 import RexMark from './RexMark'
 import { trackPurchase } from './analytics'
 import { r2Upload } from './mediaUtils'
+import { Analytics } from '@vercel/analytics/react'
 
 function useReveal() {
   useEffect(() => {
@@ -1009,6 +1010,7 @@ export default function App() {
 
   return (
     <>
+      <Analytics />
       <div className="stage">
         <div className="aurora a1" /><div className="aurora a2" /><div className="aurora a3" /><div className="mesh" />
       </div>

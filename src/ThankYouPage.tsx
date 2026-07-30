@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import RexMark from './RexMark'
 import { initAnalytics, trackPurchase } from './analytics'
+import { Analytics } from '@vercel/analytics/react'
 
 const REDIRECT_SECS = 9
 
@@ -44,6 +45,8 @@ export default function ThankYou() {
   useEffect(() => { if (secs <= 0) goHome() }, [secs])
 
   return (
+    <>
+    <Analytics />
     <div className="ty">
       <div className="stage">
         <div className="aurora a1" /><div className="aurora a2" /><div className="aurora a3" /><div className="mesh" />
@@ -60,5 +63,6 @@ export default function ThankYou() {
         <a className="ty-brand" href="/"><RexMark className="ty-logo" />Rexran</a>
       </main>
     </div>
+    </>
   )
 }
