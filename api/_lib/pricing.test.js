@@ -25,7 +25,7 @@ describe('computeTotal', () => {
         { key: 'static', qty: 3 },
       ],
     })
-    expect(total).toBe(2 * 79 + 3 * 12)
+    expect(total).toBe(2 * 79 + 3 * 8)
   })
 
   it('never trusts a client-supplied total for custom orders', () => {

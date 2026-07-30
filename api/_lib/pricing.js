@@ -4,9 +4,9 @@
 
 export const SERVICES = {
   ugc: { durations: { 15: 59, 30: 79 } },
-  cine: { durations: { 15: 79, 30: 109 } },
-  static: { price: 12 },
-  shoot: { price: 18 },
+  cine: { durations: { 15: 59, 30: 79 } },
+  static: { price: 8 },
+  shoot: { price: 12 },
 }
 
 export const PLANS = {
