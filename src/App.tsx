@@ -42,9 +42,9 @@ type Duration = { secs: number; price: number }
 type Service = { key: string; label: string; price: number; ratios: string[]; durations?: Duration[] }
 const SERVICES: Service[] = [
   { key: 'ugc', label: 'UGC Video Ad', price: 59, ratios: VIDEO_RATIOS, durations: [{ secs: 15, price: 59 }, { secs: 30, price: 79 }] },
-  { key: 'cine', label: 'Cinematic & Motion Design', price: 79, ratios: VIDEO_RATIOS, durations: [{ secs: 15, price: 79 }, { secs: 30, price: 109 }] },
-  { key: 'static', label: 'Static Ad Image', price: 12, ratios: IMAGE_RATIOS },
-  { key: 'shoot', label: 'Product Photoshoot', price: 18, ratios: IMAGE_RATIOS },
+  { key: 'cine', label: 'Cinematic & Motion Design', price: 59, ratios: VIDEO_RATIOS, durations: [{ secs: 15, price: 59 }, { secs: 30, price: 79 }] },
+  { key: 'static', label: 'Static Ad Image', price: 8, ratios: IMAGE_RATIOS },
+  { key: 'shoot', label: 'Product Photoshoot', price: 12, ratios: IMAGE_RATIOS },
 ]
 const MIN_ORDER = 25
 
