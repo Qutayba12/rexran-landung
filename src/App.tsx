@@ -1185,7 +1185,7 @@ export default function App() {
                 <p className="pdesc">{p.desc}</p>
                 <ul className="pitems">{p.items.map((i) => <li key={i}>{i}</li>)}</ul>
                 <p className="presult">{p.result}</p>
-                <button className={`cta${p.feat ? '' : ' ghost'}`} onClick={() => open(p.name)}>Choose {p.name}</button>
+                <button className="cta" onClick={() => open(p.name)}>Choose {p.name}</button>
               </div>
               )
             })}
