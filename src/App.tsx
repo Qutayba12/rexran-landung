@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import RexMark from './RexMark'
-import { trackPurchase } from './analytics'
+import { trackPurchase, trackInitiateCheckout } from './analytics'
 import { r2Upload } from './mediaUtils'
 
 function useReveal() {
@@ -1004,7 +1004,7 @@ export default function App() {
     }
   }
 
-  const open = (plan: string) => setCheckout(plan)
+  const open = (plan: string) => { trackInitiateCheckout(); setCheckout(plan) }
   const close = () => setCheckout(null)
 
   return (
