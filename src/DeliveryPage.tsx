@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import RexMark from './RexMark'
 import { forceDownload } from './mediaUtils'
+import { Analytics } from '@vercel/analytics/react'
 
 type FileItem = { url: string; name: string; type: string; label?: string }
 type Delivery = { client: string; note: string; files: FileItem[]; createdAt: number | null }
@@ -162,6 +163,8 @@ export default function Delivery() {
   }
 
   return (
+    <>
+    <Analytics />
     <div className="dl">
       <div className="stage">
         <div className="aurora a1" /><div className="aurora a2" /><div className="aurora a3" /><div className="mesh" />
@@ -340,5 +343,6 @@ export default function Delivery() {
         </div>
       )}
     </div>
+    </>
   )
 }

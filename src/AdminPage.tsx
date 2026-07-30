@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import RexMark from './RexMark'
 import { r2Upload, forceDownload, contentTypeFor, downscaleImage, makeVideoPoster } from './mediaUtils'
+import { Analytics } from '@vercel/analytics/react'
 
 type Video = { id: string; title: string; url: string; type: string; poster?: string }
 const TYPES = ['UGC', 'Static', 'Cinematic & Motion Design', 'Photoshoot', 'Campaign']
@@ -468,6 +469,8 @@ export default function Admin() {
 
   if (!authed) {
     return (
+      <>
+      <Analytics />
       <div className="adm-gate">
         <div className="adm-card">
           <RexMark className="adm-logo" />
@@ -479,10 +482,13 @@ export default function Admin() {
           <button className="cta" onClick={tryLogin} disabled={loading}>{loading ? 'Checking…' : 'Enter'}</button>
         </div>
       </div>
+      </>
     )
   }
 
   return (
+    <>
+    <Analytics />
     <div className="adm-wrap">
       <header className="adm-head">
         <div className="brand" style={{ color: 'var(--gold)' }}><RexMark className="brand-logo" />Rexran Admin</div>
@@ -912,5 +918,6 @@ export default function Admin() {
       </>
       )}
     </div>
+    </>
   )
 }
