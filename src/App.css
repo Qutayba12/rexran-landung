@@ -231,6 +231,10 @@ body.has-promo .hero { padding-top: calc(130px + var(--promo-h, 46px)); }
 .pitems { list-style: none; margin: 22px 0 28px; padding: 0; flex: 1; }
 .pitems li { display: flex; gap: 11px; padding: 11px 0; border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-mut); }
 .pitems li::before { content: '✦'; color: var(--gold); flex: none; font-size: 11px; margin-top: 3px; }
+/* Outcome line — sells the result, not the spec. Sits just above the CTA. */
+.presult { margin: 0 0 18px; padding-top: 16px; border-top: 1px solid var(--line); display: flex; gap: 8px;
+  font-family: var(--display); font-style: italic; font-size: 14px; line-height: 1.45; color: var(--gold-hi); }
+.presult::before { content: '→'; font-family: var(--mono); font-style: normal; color: var(--gold); flex: none; }
 .pcard .cta { width: 100%; justify-content: center; }
 
 /* ===== INTAKE ===== */

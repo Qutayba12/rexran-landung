@@ -50,13 +50,13 @@ const MIN_ORDER = 25
 
 const PLANS = [
   { name: 'Spark', price: '$39', per: '/ project', desc: 'A quick test spot to see how AI creative performs for your product.',
-    items: ['1 UGC video · 15s', '1 Cinematic & Motion Design · 15s', '2 hook variations', '1 static ad creative', '2 aspect ratios', '48-hour delivery'], feat: false },
+    items: ['1 UGC video · 15s', '1 Cinematic & Motion Design · 15s', '2 hook variations', '1 static ad creative', '2 aspect ratios', '48-hour delivery'], result: 'Enough to test the waters and see real numbers — fast.', feat: false },
   { name: 'Growth', price: '$99', per: '/ project', desc: 'The package most stores run with — a full video set plus statics, ready to test and scale.',
-    items: ['2 UGC videos · 30s', '1 Cinematic & Motion Design · 15s', 'AI actor + voiceover', '2 hook variations', '4 static ad creatives', 'All aspect ratios', '1 revision round', '48-hour delivery'], feat: true },
+    items: ['2 UGC videos · 30s', '1 Cinematic & Motion Design · 15s', 'AI actor + voiceover', '2 hook variations', '4 static ad creatives', 'All aspect ratios', '1 revision round', '48-hour delivery'], result: 'A full set ready to publish on TikTok & Meta today.', feat: true },
   { name: 'Scale', price: '$199', per: '/ project', desc: 'A launch-ready kit when you want to go live on every channel at once.',
-    items: ['3 UGC videos · 30s each', '1 Cinematic & Motion Design · 30s', '6 static creatives', 'Product photoshoot · 3 images', 'All aspect ratios', '2 revision rounds', 'Priority delivery'], feat: false },
+    items: ['3 UGC videos · 30s each', '1 Cinematic & Motion Design · 30s', '6 static creatives', 'Product photoshoot · 3 images', 'All aspect ratios', '2 revision rounds', 'Priority delivery'], result: 'Go live on every channel at once — nothing left to make.', feat: false },
   { name: 'Brand Partner', price: '$549', per: '/ month', desc: 'Fresh creative on tap for stores that feed paid social every week.',
-    items: ['6 UGC videos · 30s each / month', '2 Cinematic & Motion Design · 30s / month', '12 statics / month', 'Monthly trend & hook refresh', 'Rolling revisions', 'Priority queue + direct line on Instagram'], feat: false },
+    items: ['6 UGC videos · 30s each / month', '2 Cinematic & Motion Design · 30s / month', '12 statics / month', 'Monthly trend & hook refresh', 'Rolling revisions', 'Priority queue + direct line on Instagram'], result: 'Never run out of fresh creative for your weekly ad spend.', feat: false },
 ]
 
 type PlanContent = { key: string; label: string; ratios: string[]; qty: number; duration?: number }
@@ -1184,6 +1184,7 @@ export default function App() {
                 </div>
                 <p className="pdesc">{p.desc}</p>
                 <ul className="pitems">{p.items.map((i) => <li key={i}>{i}</li>)}</ul>
+                <p className="presult">{p.result}</p>
                 <button className={`cta${p.feat ? '' : ' ghost'}`} onClick={() => open(p.name)}>Choose {p.name}</button>
               </div>
               )
