@@ -1,7 +1,12 @@
-// Analytics — OFF by default. Nothing here runs, and no third-party script
-// ever loads, unless VITE_GA_MEASUREMENT_ID and/or VITE_META_PIXEL_ID are set
-// in the environment. This keeps privacy.html's "no tracking" claim true
-// until real IDs are added — update that page when you turn this on.
+// Analytics.
+// - Vercel Web Analytics is first-party (served from /_vercel/insights on our
+//   own domain), so it is NOT blocked by ad blockers, Safari ITP, or Edge
+//   tracking prevention — it always counts real visits. It needs no ID and is
+//   enabled in the Vercel dashboard.
+// - Google Analytics + Meta Pixel stay OFF unless VITE_GA_MEASUREMENT_ID /
+//   VITE_META_PIXEL_ID are set in the environment.
+import { inject as injectVercelAnalytics } from '@vercel/analytics'
+
 declare global {
   interface Window {
     dataLayer?: unknown[]
@@ -43,6 +48,8 @@ function loadMetaPixel(pixelId: string) {
 }
 
 export function initAnalytics() {
+  // First-party — always on, ad-blocker/ITP-proof.
+  injectVercelAnalytics()
   const gaId = import.meta.env.VITE_GA_MEASUREMENT_ID
   const pixelId = import.meta.env.VITE_META_PIXEL_ID
   if (gaId) loadGoogleAnalytics(gaId)
